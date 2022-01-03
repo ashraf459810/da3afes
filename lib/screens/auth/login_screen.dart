@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:da3afes/blocs/auth/bloc.dart';
@@ -62,7 +63,7 @@ Widget LoginScreen(AuthBloc bloc, BuildContext context) {
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
-                  child: buildPasswordField(),
+                  child: YellowBird(),
                 ),
                 Material(
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
@@ -363,27 +364,59 @@ void forgetPassswordDialog(BuildContext context) {
   );
 }
 
-Column buildPasswordField() {
-  return Column(
-    children: <Widget>[
-      SizedBox(
-          width: double.infinity,
-          child: Text(
-            Trans.I.late("كلمة السر"),
-            textAlign: TextAlign.end,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
-          )),
-      divider(5),
-      TextFormField(
-        keyboardType: TextInputType.emailAddress,
-        enableSuggestions: false,
-        autocorrect: false,
-        controller: _passwordController,
-        maxLines: 1,
-        textAlign: TextAlign.center,
-        obscureText: true,
-        decoration: commonInputDecoration(Icons.vpn_key, ""),
-      ),
-    ],
-  );
+class YellowBird extends StatefulWidget {
+  const YellowBird({Key key}) : super(key: key);
+
+  @override
+  State<YellowBird> createState() => _YellowBirdState();
+}
+
+class _YellowBirdState extends State<YellowBird> {
+  var isSecure = true;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        SizedBox(
+            width: double.infinity,
+            child: Text(
+              Trans.I.late("كلمة السر"),
+              textAlign: TextAlign.end,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
+            )),
+        divider(5),
+        TextFormField(
+            keyboardType: TextInputType.emailAddress,
+            enableSuggestions: false,
+            autocorrect: false,
+            controller: _passwordController,
+            maxLines: 1,
+            textAlign: TextAlign.center,
+            obscureText: isSecure == true ? true : false,
+            decoration: InputDecoration(
+              prefixIcon: GestureDetector(
+                onTap: () {
+                  log("here");
+
+                  setState(() {
+                    isSecure = !isSecure;
+                    log(isSecure.toString());
+                  });
+                },
+                child: Icon(
+                  Icons.vpn_key,
+                  color: yellowAmber,
+                ),
+              ),
+              focusColor: Colors.red,
+              filled: true,
+              fillColor: Colors.white,
+              hintText: "",
+              errorStyle: TextStyle(color: Colors.grey),
+              focusedBorder: yellowBorder,
+              enabledBorder: yellowBorder,
+            )),
+      ],
+    );
+  }
 }
