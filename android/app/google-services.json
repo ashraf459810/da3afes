@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "630389311318",
+    "firebase_url": "https://concept-246300.firebaseio.com",
+    "project_id": "concept-246300",
+    "storage_bucket": "concept-246300.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:630389311318:android:3d5477131a8c732a5db8f7",
+        "android_client_info": {
+          "package_name": "com.daafees.da3afes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "630389311318-kdpfhmiqpelst12dalsqmkrhnn22ak12.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.daafees.da3afes",
+            "certificate_hash": "db3e96dbe2ac22c14b11c4a4f6b0b42f30f3ccbd"
+          }
+        },
+        {
+          "client_id": "630389311318-rek79hk3q1fn1lmom84pt0e5cc23jn76.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1iVPUSEy_lDVP5lHAbh4hZqKmv74AmGc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "630389311318-rek79hk3q1fn1lmom84pt0e5cc23jn76.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "630389311318-n7ng5544vami5vc63alrfud8jvhs6ci5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.daafees.da3afes"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
