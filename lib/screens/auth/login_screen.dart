@@ -400,7 +400,6 @@ class _YellowBirdState extends State<YellowBird> {
 
                   setState(() {
                     isSecure = !isSecure;
-                    log(isSecure.toString());
                   });
                 },
                 child: Icon(

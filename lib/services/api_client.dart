@@ -8,8 +8,6 @@ class ApiClient {
 
   static final baseOptions = new BaseOptions(
     baseUrl: "http://daafees.com/main/api/api.php",
-    connectTimeout: 7000,
-    receiveTimeout: 7000,
     headers: {"content-type": "application/x-www-form-urlencoded"},
   );
   static final uploadOptions = new BaseOptions(

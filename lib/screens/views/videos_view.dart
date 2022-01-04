@@ -92,6 +92,7 @@ class VideoCategoriesScreen extends StatelessWidget {
               new WebviewScaffold(
                 url: link,
                 appBar: new AppBar(
+                  backgroundColor: yellowAmber,
                   title: Text(text),
                 ),
                 withZoom: false,
