@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:da3afes/application.dart';
 import 'package:da3afes/blocs/bloc.dart';
 import 'package:da3afes/consts.dart';
@@ -8,7 +10,7 @@ import 'package:da3afes/utils/Trans.dart';
 import 'package:da3afes/widgets/tile_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 
 class ReportsView extends StatefulWidget {
   @override
@@ -20,23 +22,23 @@ class _ReportsViewState extends State<ReportsView> with WidgetsBindingObserver {
 
   bool refreshed = true;
 
-  Future<String> fetchAlbum() async {
-    final response = await http
-        .get(Uri.parse('https://daafees.com/main/api/api.php?cmd=reporter'));
+  // Future<String> fetchAlbum() async {
+  //   final response = await http
+  //       .get(Uri.parse('https://daafees.com/main/api/api.php?cmd=reporter'));
 
-    if (response.statusCode == 200) {
-      return response.body;
-    } else {
-      return "";
-    }
-  }
+  //   if (response.statusCode == 200) {
+  //     return response.body;
+  //   } else {
+  //     return "";
+  //   }
+  // }
 
   Future<String> futureAlbum;
 
   @override
   void initState() {
     super.initState();
-    futureAlbum = fetchAlbum();
+    // futureAlbum = fetchAlbum();
 
     eventBus.on<onAuthentcatedResume>().listen((event) {
       // All events are of type UserLoggedInEvent (or subtypes of it).
@@ -48,88 +50,95 @@ class _ReportsViewState extends State<ReportsView> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: FutureBuilder<String>(
-        future: futureAlbum,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data == "true")
-              return Scaffold(
-                  appBar: appBar(context),
-                  body: Container(
-                    width: double.infinity,
-                    decoration: appBackground,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        iconResizeCustom("coming-soon.png", 150),
-                        Text(
-                          "قريبا ستتوفر هذه الميزة",
-                          style: TextStyle(fontSize: 15),
-                        )
-                      ],
-                    ),
-                  ));
-            else
-              return SafeArea(
-                child: BlocBuilder<AuthBloc, AuthState>(
-                  bloc: authBLoc,
-                  builder: (BuildContext context, AuthState state) {
-                    if (state is AuthenticatedState) {
-                      return buildReports();
-                    } else if (state is NotAuthenticatedState) {
-                      refreshed = false;
-                      return LoginScreen(authBLoc, context);
-                    } else if (state is InitialAuthState) {
-                      authBLoc.add(AuthenticateEvent());
-                      return Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Center(child: CircularProgressIndicator()),
-                        ],
-                      );
-                    }
-                    return Text("unknown state");
-                  },
-                ),
-              );
-          } else if (snapshot.hasError) {
-            return SafeArea(
-              child: BlocBuilder<AuthBloc, AuthState>(
-                bloc: authBLoc,
-                builder: (BuildContext context, AuthState state) {
-                  if (state is AuthenticatedState) {
-                    return buildReports();
-                  } else if (state is NotAuthenticatedState) {
-                    refreshed = false;
-                    return LoginScreen(authBLoc, context);
-                  } else if (state is InitialAuthState) {
-                    authBLoc.add(AuthenticateEvent());
-                    return Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Center(child: CircularProgressIndicator()),
-                      ],
-                    );
-                  }
-                  return Text("unknown state");
-                },
-              ),
+        child:
+            // FutureBuilder<String>(
+            //   future: futureAlbum,
+            //   builder: (context, snapshot) {
+            //     if (snapshot.hasData) {
+            //       if (snapshot.data == "false") {
+            //         return Scaffold(
+            //             appBar: appBar(context),
+            //             body: Container(
+            //               width: double.infinity,
+            //               decoration: appBackground,
+            //               child: Column(
+            //                 crossAxisAlignment: CrossAxisAlignment.center,
+            //                 mainAxisAlignment: MainAxisAlignment.center,
+            //                 children: [
+            //                   iconResizeCustom("coming-soon.png", 150),
+            //                   Text(
+            //                     "قريبا ستتوفر هذه الميزة",
+            //                     style: TextStyle(fontSize: 15),
+            //                   )
+            //                 ],
+            //               ),
+            //             ));
+            //       } else {
+            //         return
+            SafeArea(
+      child: BlocBuilder<AuthBloc, AuthState>(
+        bloc: authBLoc,
+        builder: (BuildContext context, AuthState state) {
+          if (state is AuthenticatedState) {
+            log("authenticated");
+            return buildReports();
+          } else if (state is NotAuthenticatedState) {
+            ;
+            log("authenticated");
+            refreshed = false;
+            return LoginScreen(authBLoc, context);
+          } else if (state is InitialAuthState) {
+            authBLoc.add(AuthenticateEvent());
+            return Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Center(child: CircularProgressIndicator()),
+              ],
             );
           }
-          return Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Center(child: CircularProgressIndicator()),
-            ],
-          );
+          return Text("unknown state");
         },
       ),
-    );
+    ));
   }
+
+  // } else if (snapshot.hasError) {
+  //   return SafeArea(
+  //     child: BlocBuilder<AuthBloc, AuthState>(
+  //       bloc: authBLoc,
+  //       builder: (BuildContext context, AuthState state) {
+  //         if (state is AuthenticatedState) {
+  //           return buildReports();
+  //         } else if (state is NotAuthenticatedState) {
+  //           refreshed = false;
+  //           return LoginScreen(authBLoc, context);
+  //         } else if (state is InitialAuthState) {
+  //           authBLoc.add(AuthenticateEvent());
+  //           return Column(
+  //             mainAxisSize: MainAxisSize.max,
+  //             mainAxisAlignment: MainAxisAlignment.center,
+  //             children: <Widget>[
+  //               Center(child: CircularProgressIndicator()),
+  //             ],
+  //           );
+  //         }
+  //         return Text("unknown state");
+  //       },
+  //     ),
+  //   );
+  // }
+
+  //       return Column(
+  //         mainAxisSize: MainAxisSize.max,
+  //         mainAxisAlignment: MainAxisAlignment.center,
+  //         children: <Widget>[
+  //           Center(child: CircularProgressIndicator()),
+  //         ],
+  //       );
+  //     },
+  //   ),
+  // );
 
   Widget buildReports() {
     return Scaffold(

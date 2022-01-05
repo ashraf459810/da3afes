@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:da3afes/models/MapResponse.dart';
@@ -28,6 +29,7 @@ class ServicesScreenState extends State<ServicesScreen> {
   Completer<GoogleMapController> _controller = Completer();
   GoogleMapController mapController;
   final Set<Marker> _markers = {};
+
   CameraPosition _currentPosition;
   double _pinPillPosition = -200;
   MapAds currentMapAd;
@@ -194,6 +196,9 @@ class ServicesScreenState extends State<ServicesScreen> {
                     myLocationButtonEnabled: true,
                     trafficEnabled: true,
                     tiltGesturesEnabled: false,
+                    // onCameraMove: (position) {
+
+                    // },
                     padding: EdgeInsets.only(right: 70),
                     zoomControlsEnabled: false,
                     onTap: (asd) {
@@ -206,6 +211,21 @@ class ServicesScreenState extends State<ServicesScreen> {
                       _controller.complete(controller);
                       mapController = controller;
                       getMarkers("");
+                      // if (selectAd.location.isNotEmpty) {
+                      //   log("here frim fun");
+                      //   var lll = selectAd.location.split(",");
+
+                      //   var latlng = new LatLng(
+                      //       double.parse(lll.first), double.parse(lll.last));
+                      //   CameraUpdate u2 = CameraUpdate.newLatLngBounds(
+                      //       LatLngBounds(
+                      //           southwest: _currentPosition.target,
+                      //           northeast: latlng),
+                      //       50);
+                      //   this.mapController.animateCamera(u2).then((void v) {
+                      //     check(u2, this.mapController);
+                      //   });
+                      // }
                     }),
                 Positioned(
                   top: 10,
@@ -388,6 +408,20 @@ class ServicesScreenState extends State<ServicesScreen> {
                       child: GestureDetector(
                         onTap: () {
                           sendRequest();
+                          if (selectAd.location.isNotEmpty) {
+                            var lll = selectAd.location.split(",");
+
+                            var latlng = new LatLng(double.parse(lll.first),
+                                double.parse(lll.last));
+                            CameraUpdate u2 = CameraUpdate.newLatLngBounds(
+                                LatLngBounds(
+                                    southwest: _currentPosition.target,
+                                    northeast: latlng),
+                                50);
+                            log("here frim fun");
+
+                            mapController.moveCamera(u2);
+                          }
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -422,6 +456,17 @@ class ServicesScreenState extends State<ServicesScreen> {
       ),
     );
   }
+
+  // void check(CameraUpdate u, GoogleMapController c) async {
+  //   c.animateCamera(u);
+  //   mapController.animateCamera(u);
+  //   LatLngBounds l1 = await c.getVisibleRegion();
+  //   LatLngBounds l2 = await c.getVisibleRegion();
+  //   print(l1.toString());
+  //   print(l2.toString());
+  //   if (l1.southwest.latitude == -90 || l2.southwest.latitude == -90)
+  //     check(u, c);
+  // }
 
   Widget _buildAvatar() {
     return Container(
