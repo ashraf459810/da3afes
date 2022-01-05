@@ -420,7 +420,7 @@ class ServicesScreenState extends State<ServicesScreen> {
                                 50);
                             log("here frim fun");
 
-                            mapController.moveCamera(u2);
+                            check(u2, mapController);
                           }
                         },
                         child: Container(
@@ -457,16 +457,16 @@ class ServicesScreenState extends State<ServicesScreen> {
     );
   }
 
-  // void check(CameraUpdate u, GoogleMapController c) async {
-  //   c.animateCamera(u);
-  //   mapController.animateCamera(u);
-  //   LatLngBounds l1 = await c.getVisibleRegion();
-  //   LatLngBounds l2 = await c.getVisibleRegion();
-  //   print(l1.toString());
-  //   print(l2.toString());
-  //   if (l1.southwest.latitude == -90 || l2.southwest.latitude == -90)
-  //     check(u, c);
-  // }
+  void check(CameraUpdate u, GoogleMapController c) async {
+    c.animateCamera(u);
+    mapController.animateCamera(u);
+    LatLngBounds l1 = await c.getVisibleRegion();
+    LatLngBounds l2 = await c.getVisibleRegion();
+    print(l1.toString());
+    print(l2.toString());
+    if (l1.southwest.latitude == -90 || l2.southwest.latitude == -90)
+      check(u, c);
+  }
 
   Widget _buildAvatar() {
     return Container(
