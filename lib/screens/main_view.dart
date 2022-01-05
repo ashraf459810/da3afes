@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:da3afes/application.dart';
 import 'package:da3afes/blocs/home/home_bloc.dart';
 import 'package:da3afes/consts.dart';
@@ -8,7 +10,6 @@ import 'package:da3afes/screens/views/reports_view.dart';
 import 'package:da3afes/screens/views/services_view.dart';
 import 'package:da3afes/screens/views/videos_view.dart';
 import 'package:da3afes/utils/Trans.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,8 +29,6 @@ class MainView extends StatefulWidget {
 
 class MainViewState extends State<MainView>
     with SingleTickerProviderStateMixin {
-  TabController _tabController;
-
   final List<Widget> _children = [
     BlocProvider<HomeBloc>(create: (context) => HomeBloc(), child: HomeView()),
     ServicesScreen(),
@@ -51,42 +50,57 @@ class MainViewState extends State<MainView>
 
     print(Trans.I.late("الرئيسية"));
     eventBus.on<SwitchTab>().listen((event) {
+      print("heeeeeeeeeeeeeeeeeeeeeeeeeeeere nav");
+
       tabController.jumpToTab(event.index);
-      context.widget.toString();
+      print(context.widget.toString());
     });
+
     tabsList = [
       PersistentBottomNavBarItem(
-          icon: new Icon(Icons.home),
-          title: Trans.I.late("الرئيسية"),
-          activeColor: yellowAmber,
-          inactiveColor: grey),
-      PersistentBottomNavBarItem(
-          icon: new Icon(Icons.location_on),
-          title: Trans.I.late("الخدمات"),
-          activeColor: yellowAmber,
-          inactiveColor: grey),
-      PersistentBottomNavBarItem(
-          icon: new Icon(
-            Icons.add_circle,
-            size: 34,
-          ),
-          title: " ",
-          activeColor: yellowAmber,
-          inactiveColor: grey),
-      PersistentBottomNavBarItem(
-        icon: new Icon(Icons.ondemand_video),
-        title: Trans.I.late("الفيديو"),
-        activeColor: yellowAmber,
-        inactiveColor: grey,
+        activeColorPrimary: yellowAmber,
+        inactiveColorPrimary: grey,
+        icon: new Icon(Icons.home),
+        title: Trans.I.late("الرئيسية"),
+        // activeColor: yellowAmber,
+        // inactiveColor: grey
       ),
       PersistentBottomNavBarItem(
+        activeColorPrimary: yellowAmber,
+        inactiveColorPrimary: grey,
+        icon: new Icon(Icons.location_on),
+        title: Trans.I.late("الخدمات"),
+        // activeColor: yellowAmber,
+        // inactiveColor: grey
+      ),
+      PersistentBottomNavBarItem(
+        activeColorPrimary: yellowAmber,
+        inactiveColorPrimary: grey,
+        icon: new Icon(
+          Icons.add_circle,
+          size: 34,
+        ),
+        title: " ",
+        // activeColor: yellowAmber,
+        // inactiveColor: grey
+      ),
+      PersistentBottomNavBarItem(
+        activeColorPrimary: yellowAmber,
+        inactiveColorPrimary: grey,
+        icon: new Icon(Icons.ondemand_video),
+        title: Trans.I.late("الفيديو"),
+        // activeColor: yellowAmber,
+        // inactiveColor: grey,
+      ),
+      PersistentBottomNavBarItem(
+        activeColorPrimary: yellowAmber,
+        inactiveColorPrimary: grey,
         icon: new Icon(Icons.featured_play_list),
-        activeColor: yellowAmber,
+        // activeColor: yellowAmber,
         title: Trans.I.late("تقارير السيارات"),
-        inactiveColor: grey,
+        // inactiveColor: grey,
       )
     ];
-    _tabController = new TabController(length: _children.length, vsync: this);
     if (toDo != null)
       SchedulerBinding.instance.addPostFrameCallback((a) {
         Fluttertoast.showToast(msg: "hola");
@@ -111,15 +125,19 @@ class MainViewState extends State<MainView>
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: PersistentTabView(
+        context,
+        // singletonContext,
         controller: tabController,
+
+        decoration: NavBarDecoration(colorBehindNavBar: yellowAmber),
         items: tabsList,
         screens: _children,
         navBarHeight: navBarHeight,
         backgroundColor: Color(0xFFe2e2e2),
         handleAndroidBackButtonPress: true,
-        popAllScreensOnTapOfSelectedTab: false,
+        popAllScreensOnTapOfSelectedTab: true,
         confineInSafeArea: true,
-//        showElevation: true,
+        //  showElevation: true,
         navBarStyle: NavBarStyle.style3,
       ),
     );
